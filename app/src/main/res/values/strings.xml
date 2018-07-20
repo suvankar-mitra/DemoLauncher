@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Demo Launcher</string>
+    <string name="all_apps">All Apps</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="thanks">Thank you for choosing the minimalist launcher!\nPlease share the goodness.</string>
+    <string name="share"><u>Share</u></string>
+</resources>
