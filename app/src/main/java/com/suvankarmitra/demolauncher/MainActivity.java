@@ -2,18 +2,14 @@ package com.suvankarmitra.demolauncher;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
-import android.provider.Telephony;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView clock;
     private TextView date;
     private ImageButton appDrawer;
+    private TextView searchBar;
 
     private final String TAG = "MainActivity";
     private Thread timer;
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         appDrawer = findViewById(R.id.button);
         clock = findViewById(R.id.clock);
         date = findViewById(R.id.date);
+        searchBar = findViewById(R.id.search_bar);
 
         // To get user permissions
         getUserPermissions();
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton dialer = findViewById(R.id.dialer);
+        ImageButton dialer = findViewById(R.id.button_1);
         dialer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton message = findViewById(R.id.message);
+        ImageButton message = findViewById(R.id.button_2);
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,22 +170,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton music = findViewById(R.id.music);
-        music.setOnClickListener(new View.OnClickListener() {
+        ImageButton button3 = findViewById(R.id.button_3);
+        button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = getPackageManager().getLaunchIntentForPackage("com.google.android.music");
+                Intent i = getPackageManager().getLaunchIntentForPackage("com.android.chrome");
                 if (i != null) {
                     startActivity(i); //null pointer check in case package name was not found
                 }
             }
         });
 
-        ImageButton settings = findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
+        ImageButton button4 = findViewById(R.id.button_4);
+        button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = getPackageManager().getLaunchIntentForPackage("com.android.settings");
+                Intent i = getPackageManager().getLaunchIntentForPackage("com.android.camera");
                 if (i != null) {
                     startActivity(i); //null pointer check in case package name was not found
                 }
@@ -220,6 +218,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = getPackageManager().getLaunchIntentForPackage("com.google.android.googlequicksearchbox");
+                if (i != null) {
+                    startActivity(i); //null pointer check in case package name was not found
+                }
+            }
+        });
     }
 
     private void getRandomQuote() {
@@ -269,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         int unreadMessagesCount = c.getCount();
         c.close();
         Log.d(TAG, "getUnreadSMSCount: " + unreadMessagesCount);
-        ImageButton msg = findViewById(R.id.message);
+        ImageButton msg = findViewById(R.id.button_2);
         if (unreadMessagesCount > 0) {
             msg.setImageResource(R.drawable.ic_message_text_badge);
         } else {
@@ -283,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         int missedCallCount = c1.getCount();
         c1.close();
         Log.d("CALL", ""+missedCallCount);
-        ImageButton call = findViewById(R.id.dialer);
+        ImageButton call = findViewById(R.id.button_1);
         if(missedCallCount > 0) {
             call.setImageResource(R.drawable.ic_phone_badge);
         } else {
