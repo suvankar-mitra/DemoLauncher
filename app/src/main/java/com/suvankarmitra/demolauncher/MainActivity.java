@@ -280,13 +280,15 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = getContentResolver().query(SMS_INBOX, null, "read = 0", null, null);
         int unreadMessagesCount = c.getCount();
         c.close();
-        Log.d(TAG, "getUnreadSMSCount: " + unreadMessagesCount);
-        ImageButton msg = findViewById(R.id.button_2);
-        if (unreadMessagesCount > 0) {
-            msg.setImageResource(R.drawable.ic_message_text_badge);
-        } else {
-            msg.setImageResource(R.drawable.ic_chat_black_24dp);
-        }
+//        Log.d(TAG, "getUnreadSMSCount: " + unreadMessagesCount);
+        runOnUiThread(()->{
+            ImageButton msg = findViewById(R.id.button_2);
+            if (unreadMessagesCount > 0) {
+                msg.setImageResource(R.drawable.ic_message_text_badge);
+            } else {
+                msg.setImageResource(R.drawable.ic_chat_black_24dp);
+            }
+        });
 
         String[] projection = {CallLog.Calls.CACHED_NAME, CallLog.Calls.CACHED_NUMBER_LABEL, CallLog.Calls.TYPE};
         String where = CallLog.Calls.TYPE + "=" + CallLog.Calls.MISSED_TYPE +" AND NEW = 1";
@@ -294,13 +296,15 @@ public class MainActivity extends AppCompatActivity {
         c1.moveToFirst();
         int missedCallCount = c1.getCount();
         c1.close();
-        Log.d("CALL", ""+missedCallCount);
-        ImageButton call = findViewById(R.id.button_1);
-        if(missedCallCount > 0) {
-            call.setImageResource(R.drawable.ic_phone_badge);
-        } else {
-            call.setImageResource(R.drawable.ic_call_black_24dp);
-        }
+//        Log.d("CALL", ""+missedCallCount);
+        runOnUiThread(()->{
+            ImageButton call = findViewById(R.id.button_1);
+            if(missedCallCount > 0) {
+                call.setImageResource(R.drawable.ic_phone_badge);
+            } else {
+                call.setImageResource(R.drawable.ic_call_black_24dp);
+            }
+        });
     }
 
     @Override
