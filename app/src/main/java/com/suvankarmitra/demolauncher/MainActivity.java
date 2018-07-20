@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -60,26 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         // To get user permissions
         getUserPermissions();
-
         setClickListeners();
-
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                getRandomQuote();
-                            }
-                        });
-                        Thread.sleep(1000 * 60 * 30);
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        }.start();
+        //getRandomQuote();
 
     }
 
@@ -127,8 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setTime(TextView clock, TextView date) {
         time = Calendar.getInstance().getTime();
-        clock.setText(android.text.format.DateFormat.format("HH:mm", time));
-        date.setText(android.text.format.DateFormat.format("MMMM dd, yyyy", time));
+        SpannableString ss1=  new SpannableString(android.text.format.DateFormat.format("h:mma", time));
+        ss1.setSpan(new RelativeSizeSpan(0.2f), ss1.length()-2,ss1.length(), 0);
+        clock.setText(ss1);
+        SpannableString ss2=  new SpannableString(android.text.format.DateFormat.format("EE MMMM dd yyyy", time));
+        ss2.setSpan(new RelativeSizeSpan(0.7f), ss2.length()-4,ss2.length(), 0);
+        ss2.setSpan(new RelativeSizeSpan(0.7f), 0,3, 0);
+        date.setText(ss2);
     }
 
     private void setClickListeners() {
@@ -230,38 +219,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRandomQuote() {
-        String url = "https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String url = "https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
 
-        StringRequest stringRequest = new StringRequest
-                (Request.Method.GET, url, new Response.Listener<String>() {
+                                StringRequest stringRequest = new StringRequest
+                                        (Request.Method.GET, url, new Response.Listener<String>() {
 
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("MainActivity", "Response: " + response.toString());
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            String a = "- " + jsonArray.getJSONObject(0).getString("title").trim();
-                            String q = jsonArray.getJSONObject(0).getString("content");
-                            q = String.valueOf(Html.fromHtml(q)).trim();
-                            quote.setText("\"" + q + "\"");
-                            author.setText(a);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                                            @Override
+                                            public void onResponse(String response) {
+                                                Log.d("MainActivity", "Response: " + response.toString());
+                                                try {
+                                                    JSONArray jsonArray = new JSONArray(response);
+                                                    String a = "- " + jsonArray.getJSONObject(0).getString("title").trim();
+                                                    String q = jsonArray.getJSONObject(0).getString("content");
+                                                    q = String.valueOf(Html.fromHtml(q)).trim();
+                                                    quote.setText("\"" + q + "\"");
+                                                    author.setText(a);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, new Response.ErrorListener() {
+
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                // TODO: Handle error
+                                            }
+                                        });
+
+                                //creating a request queue
+                                RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+                                //adding the string request to request queue
+                                requestQueue.add(stringRequest);
+                            }
+                        });
+                        Thread.sleep(1000 * 60 * 30);
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                    }
-                });
-
-        //creating a request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //adding the string request to request queue
-        requestQueue.add(stringRequest);
+                } catch (InterruptedException e) {
+                }
+            }
+        }.start();
     }
 
     private void getUnreadSMSCount() {

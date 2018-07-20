@@ -11,7 +11,9 @@
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/gray" />-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:background="@android:color/black" />-->
 
     <TextView
         android:id="@+id/clock"
@@ -19,12 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/montserrat_light"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="66sp" />
+        android:textSize="66sp"/>
 
     <TextView
         android:id="@+id/date"
@@ -40,10 +42,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/date"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
@@ -55,9 +57,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/button_1"
-            android:src="@drawable/ic_call_black_24dp"
-            android:background="@drawable/round_button"
-            android:layout_marginEnd="4dp" />
+            android:src="@drawable/ic_call_black_24dp" />
 
         <ImageButton
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -65,10 +65,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/button_2"
-            android:src="@drawable/ic_chat_black_24dp"
-            android:background="@drawable/round_button"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"/>
+            android:src="@drawable/ic_chat_black_24dp"/>
 
         <ImageButton
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -76,10 +73,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/button_3"
-            android:src="@drawable/ic_chrome"
-            android:background="@drawable/round_button"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"/>
+            android:src="@drawable/ic_chrome" />
 
         <ImageButton
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -88,8 +82,7 @@
             android:layout_weight="1"
             android:id="@+id/button_4"
             android:src="@drawable/ic_camera_alt_black_24dp"
-            android:background="@drawable/round_button"
-            android:layout_marginStart="4dp"/>
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,7 +120,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/search_bar_container"
         android:layout_centerHorizontal="true"
-        android:alpha="0.6">
+        android:alpha="0.6"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/quote"
@@ -166,7 +160,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_all_apps"/>
 
 </RelativeLayout>
